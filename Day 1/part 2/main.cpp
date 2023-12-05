@@ -42,7 +42,6 @@ int main() {
             left = firstNumber;
             right = lastNumber;
         }
-        std::cout << "left: " << left << "\nright: " << right << "\nleftIndex: " << firstIndex << "\nrightIndex: " << lastIndex << "\nfirstNumber: " << firstNumber << "\nlastNumber: " << lastNumber << "\nsuma: " << sum << " + " << (left * 10) + right << " = " << sum + (left * 10) + right << "\n\n";
         if (left != -1 && right != -1)
             sum += (left * 10) + right;
         left = -1;
