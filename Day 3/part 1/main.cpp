@@ -5,7 +5,7 @@
 
 void getText(std::vector<std::string> &text);
 void findNumber(std::vector<std::string> text, int &sum);
-bool findSymbol(std::vector<std::string>, int lineIndex, int numIndex, int numLength);
+bool findSymbol(std::vector<std::string> text, int lineIndex, int numIndex, int numLength);
 
 int main(){
     std::vector<std::string> text;
