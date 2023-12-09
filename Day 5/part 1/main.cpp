@@ -82,7 +82,7 @@ void searchThrough(std::vector<std::pair<bool, long long int>> &numbers, std::st
     std::vector<long long int> lineNumbers = getNumbers(line);
     for(long long int i = 0; i < numbers.size(); i++){
         if(std::get<bool>(numbers[i]) == false){
-            if(std::get<long long int>(numbers[i]) > lineNumbers[1] && std::get<long long int>(numbers[i]) < lineNumbers[1] + (lineNumbers[2])){
+            if(std::get<long long int>(numbers[i]) >= lineNumbers[1] && std::get<long long int>(numbers[i]) < lineNumbers[1] + (lineNumbers[2])){
                 numbers[i].first = true;
                 numbers[i].second += lineNumbers[0] - lineNumbers[1];
             }
