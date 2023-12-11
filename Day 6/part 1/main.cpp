@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <chrono>
 
 void solve(std::vector<std::string> rows);
 void getNumbers(std::vector<int> &numVector, std::string line);
@@ -17,9 +18,12 @@ int main(){
             rows.push_back(row);
         }
     }
-
+    auto start = std::chrono::high_resolution_clock::now(); // Start time
     solve(rows);
-
+    // Code snippet
+    auto stop = std::chrono::high_resolution_clock::now(); // Stop time
+    auto duration = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start); // Duration
+    printf("\nTime measured: %.6f seconds.\n", duration.count() * 1e-9);
     return 0;
 }
 
