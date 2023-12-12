@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <cctype>
+#include <fstream>
 
 void getText(std::vector<std::string> &text);
 void findStar(std::vector<std::string> text, int &sum);
@@ -9,9 +10,16 @@ void findNumbers(std::vector<std::string> text, int lineIndex, int starIndex, in
 int setNumber(std::vector<std::string> text, std::string line, int foundIndex);
 
 int main(){
+    std::string row;
     std::vector<std::string> text;
+    std::ifstream file("input.txt");
     int sum = 0;
-    getText(text);
+    
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            text.push_back(row);
+        }
+    }
     findStar(text, sum);
 
     std::cout << sum;

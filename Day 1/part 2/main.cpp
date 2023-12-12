@@ -1,13 +1,13 @@
 #include <iostream>
 #include <string>
 #include <cctype>
+#include <vector>
+#include <fstream>
 
-int main() {
+void solve(std::vector<std::string> rows) {
     int sum = 0, left = -1, right = -1, firstIndex = -1, lastIndex = -1, firstNumber = -1, lastNumber = -1;
-    std::string numbers[10] = { "~", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
-    for (std::string value; std::getline(std::cin, value);) {
-        if (value.empty())
-            break;
+    std::string numbers[10] = { "~NULL", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
+    for (std::string value : rows) {
         for (int i = 0; i < 10; i++) {
             if (value.find(numbers[i]) != std::string::npos) {
                 if (firstIndex == -1 || (firstIndex != -1 && value.find(numbers[i]) < firstIndex)) {
@@ -52,6 +52,21 @@ int main() {
         lastNumber = -1;
     }
     std::cout << sum;
+}
+
+
+int main(){
+    std::string row;
+    std::vector<std::string> rows;
+    std::ifstream file("input.txt");
+
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            rows.push_back(row);
+        }
+    }
+
+    solve(rows);
 
     return 0;
 }

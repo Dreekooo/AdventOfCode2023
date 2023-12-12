@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+#include <fstream>
+#include <vector>
 
 bool checkCubes(std::string tempString){
     if(tempString.find("red") != std::string::npos){
@@ -50,12 +52,14 @@ void splitFunction(std::string gameLine, char separator, int &gameIDs, int gameI
 int main(){
     int gameIDs = 0;
     int gameID = 0;
-    for(std::string gameLine; std::getline(std::cin, gameLine);){
-        gameID++;
-        if(gameLine.empty())
-            break;
+    std::string row;
+    std::ifstream file("input.txt");
 
-        splitFunction(gameLine, ';', gameIDs, gameID);
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            gameID++;
+            splitFunction(row, ';', gameIDs, gameID);
+        }
     }
     std::cout << gameIDs;
 }

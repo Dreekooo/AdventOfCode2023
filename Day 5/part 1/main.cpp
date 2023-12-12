@@ -2,9 +2,10 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include <fstream>
 
 std::vector<long long int> getNumbers(std::string numbers);
-long long int findLocation(std::vector<std::pair<bool, long long int>> seeds);
+long long int findLocation(std::vector<std::pair<bool, long long int>> seeds, std::vector<std::string> rows);
 void changeToFalse(std::vector<std::pair<bool, long long int>> &vector);
 void searchThrough(std::vector<std::pair<bool, long long int>> &numbers, std::string line);
 long long int findSmallest(std::vector<std::pair<bool, long long int>> numbers);
@@ -12,16 +13,25 @@ long long int findSmallest(std::vector<std::pair<bool, long long int>> numbers);
 int main(){
     std::vector<long long int> numbers;
     std::vector<std::pair<bool, long long int>> seeds;
-    std::string tempSeedsLine, seedsLine = "";
+    std::string tempSeedsLine, seedsLine = "", row;
     long long int lowestLocation = -1, tempLocation;;
+    std::vector<std::string> rows;
+    std::ifstream file("input.txt");
 
-    std::getline(std::cin, tempSeedsLine);
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            rows.push_back(row);
+        }
+    }
+
+    tempSeedsLine = rows[0];
+    rows.erase(rows.begin());
     seedsLine.append(tempSeedsLine, tempSeedsLine.find(':') + 1, tempSeedsLine.length() - tempSeedsLine.find(':') + 1);
     numbers = getNumbers(seedsLine);
     for(long long int number : numbers)
         seeds.push_back(std::pair<bool, long long int>(false, number));
 
-    lowestLocation = findLocation(seeds);
+    lowestLocation = findLocation(seeds, rows);
     std::cout << lowestLocation;
 
     return 0;
@@ -48,16 +58,11 @@ std::vector<long long int> getNumbers(std::string numbers){
     return vecNumbers;
 }
 
-long long int findLocation(std::vector<std::pair<bool, long long int>> numbers){
+long long int findLocation(std::vector<std::pair<bool, long long int>> numbers, std::vector<std::string> rows){
     std::vector<long long int> Locations;
     long long int smallestLocation;
-    long long int step = 0;
-    for(std::string line; std::getline(std::cin, line);){
+    for(std::string line : rows){
         if(line.empty()){
-            if(step == 7){
-                break;
-            }
-            step++;
             changeToFalse(numbers);
             continue;
         }

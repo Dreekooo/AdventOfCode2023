@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cctype>
 #include <string>
+#include <vector>
+#include <fstream>
 
 void checkCubes(std::string tempString, int &minRed, int &minGreen, int &minBlue){
     if(tempString.find("red") != std::string::npos){
@@ -48,11 +50,14 @@ void splitFunction(std::string gameLine, char separator, int &powerSum){
 
 int main(){
     int powerSum = 0;
-    for(std::string gameLine; std::getline(std::cin, gameLine);){
-        if(gameLine.empty())
-            break;
+    std::string row;
+    std::vector<std::string> rows;
+    std::ifstream file("input.txt");
 
-        splitFunction(gameLine, ';', powerSum);
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            splitFunction(row, ';', powerSum);
+        }
     }
     std::cout << powerSum;
 }

@@ -3,6 +3,7 @@
 #include <cctype>
 #include <vector>
 #include <map>
+#include <fstream>
 
 void addCopies(std::vector<int> winningNumbers, std::vector<int> playerNumbers, std::map<int, int> &copies, int lineIndex){
     int pairs = 0;
@@ -68,11 +69,14 @@ void createVectors(std::string line, int &scAmmount, std::map<int, int> &copies,
 int main(){
     int scAmmount = 0, lineIndex = 0;
     std::map<int, int> copies; //first int => line index; second int => copies ammount;
-    for(std::string line; std::getline(std::cin, line);){
-        lineIndex++;
-        if(line.empty())
-            break;
-        createVectors(line, scAmmount, copies, lineIndex);
+    std::string row;
+    std::ifstream file("input.txt");
+
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            lineIndex++;
+            createVectors(row, scAmmount, copies, lineIndex);
+        }
     }
 
     std::cout << scAmmount;

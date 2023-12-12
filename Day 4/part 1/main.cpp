@@ -2,6 +2,7 @@
 #include <string>
 #include <cctype>
 #include <vector>
+#include <fstream>
 
 int countPoints(std::vector<int> winningNumbers, std::vector<int> playerNumbers){
     int points = 0;
@@ -64,12 +65,15 @@ void createVectors(std::string line, int &cardPoints){
 
 int main(){
     int sum = 0, cardPoints;
-    for(std::string line; std::getline(std::cin, line);){
-        if(line.empty())
-            break;
-        cardPoints = 0;
-        createVectors(line, cardPoints);
-        sum += cardPoints;
+    std::string row;
+    std::ifstream file("input.txt");
+
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            cardPoints = 0;
+            createVectors(row, cardPoints);
+            sum += cardPoints;
+        }
     }
 
     std::cout << sum;

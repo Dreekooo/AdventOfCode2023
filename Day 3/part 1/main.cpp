@@ -2,15 +2,22 @@
 #include <string>
 #include <vector>
 #include <cctype>
+#include <fstream>
 
 void getText(std::vector<std::string> &text);
 void findNumber(std::vector<std::string> text, int &sum);
 bool findSymbol(std::vector<std::string> text, int lineIndex, int numIndex, int numLength);
 
 int main(){
+    std::string row;
     std::vector<std::string> text;
+    std::ifstream file("input.txt");
     int sum = 0;
-    getText(text);
+    if(file.is_open()){
+        while(std::getline(file, row)){
+            text.push_back(row);
+        }
+    }
     findNumber(text, sum);
 
     std::cout << sum;
