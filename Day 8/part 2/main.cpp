@@ -1,3 +1,5 @@
+//Zadanie działa jedynie na wartości wejściowe ze strony Advent of code!
+
 #include <iostream>
 #include <vector>
 #include <map>
