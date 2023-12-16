@@ -19,7 +19,7 @@ void nextStep(path &checkPath, path secondPath, bool &found, int nextX, int next
 
 int main()
 {
-    std::ifstream file("input.txt");
+    std::ifstream file("test_input_1.txt");
     std::string row;
     std::vector<std::string> rows;
 
@@ -99,18 +99,27 @@ void findPath(std::vector<std::string> rows, path &checkPath, path secondPath, b
         if(!madeStep)
             nextStep(checkPath, secondPath, loop, 1, 0, madeStep); // right
     } else if(pipe == 'S'){
-        char pipeUp = rows[checkPath.current_Y - 1][checkPath.current_X];
-        char pipeDown = rows[checkPath.current_Y + 1][checkPath.current_X];
-        char pipeLeft = rows[checkPath.current_Y][checkPath.current_X - 1];
-        char pipeRight = rows[checkPath.current_Y][checkPath.current_X + 1];
+        char pipeUp;
+        char pipeDown;
+        char pipeLeft;
+        char pipeRight;
+        
+        if(checkPath.current_Y != 0)
+            pipeUp = rows[checkPath.current_Y - 1][checkPath.current_X];
+        if(checkPath.current_Y != rows.size() - 1)
+            pipeDown = rows[checkPath.current_Y + 1][checkPath.current_X];
+        if(checkPath.current_X != 0)
+            pipeLeft = rows[checkPath.current_Y][checkPath.current_X - 1];
+        if(checkPath.current_X != rows[0].length() - 1)
+            pipeRight = rows[checkPath.current_Y][checkPath.current_X + 1];  
 
-        if((pipeUp == '|' || pipeUp == 'F' || pipeUp == '7') && secondPath.current_Y != checkPath.current_Y - 1){
+        if((pipeUp == '|' || pipeUp == 'F' || pipeUp == '7') && secondPath.current_Y != checkPath.current_Y - 1 && checkPath.current_Y != 0){
             nextStep(checkPath, secondPath, loop, 0, -1, madeStep); // up
-        } else if((pipeDown == '|' || pipeDown == 'L' || pipeDown == 'J') &&secondPath.current_Y != checkPath.current_Y + 1){
+        } else if((pipeDown == '|' || pipeDown == 'L' || pipeDown == 'J') &&secondPath.current_Y != checkPath.current_Y + 1 && checkPath.current_Y != rows.size() - 1){
             nextStep(checkPath, secondPath, loop, 0, 1, madeStep); // down
-        } else if((pipeLeft == '-' || pipeLeft == 'L' || pipeLeft == 'F') && secondPath.current_X != checkPath.current_X - 1){
+        } else if((pipeLeft == '-' || pipeLeft == 'L' || pipeLeft == 'F') && secondPath.current_X != checkPath.current_X - 1  && checkPath.current_X != 0){
             nextStep(checkPath, secondPath, loop, -1, 0, madeStep); // left
-        } else if((pipeRight == '-' || pipeRight == 'J' || pipeRight == '7') && secondPath.current_X != checkPath.current_X + 1){
+        } else if((pipeRight == '-' || pipeRight == 'J' || pipeRight == '7') && secondPath.current_X != checkPath.current_X + 1  && checkPath.current_X != rows[0].length() - 1){
             nextStep(checkPath, secondPath, loop, 1, 0, madeStep); // right
         }
     }
