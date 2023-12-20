@@ -18,6 +18,8 @@ int main(){
         }
     }
 
+    file.close();
+
     answer = solve(rows);
     std::cout << answer;
     

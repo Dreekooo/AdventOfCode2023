@@ -17,6 +17,8 @@ int main(){
         }
     }
 
+    file.close();
+
     solve(rows);
 
     return 0;
