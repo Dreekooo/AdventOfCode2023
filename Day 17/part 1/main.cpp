@@ -5,7 +5,7 @@
 
 struct element
 {
-    int shortestPath = 0;
+    int shortestPath = INT_MAX;
     bool visited = false;
     std::string gotByDirection = "NONE";
 };
@@ -73,6 +73,7 @@ std::vector<std::vector<element>> dijkstraAlgorithm(std::vector<std::vector<elem
         elementsWithPaths[i].resize(vecOfElements[i].size());
     }
 
+    vecOfElements[0][0].shortestPath = 0;
     while(ammountOfVisitedElements < ammountOfElements){
         element *currentElement = &vecOfElements[smallestValue.first][smallestValue.second];
         ammountOfVisitedElements++;
@@ -82,13 +83,13 @@ std::vector<std::vector<element>> dijkstraAlgorithm(std::vector<std::vector<elem
         if(smallestValue.first > 0){
             element *elementAbove = &vecOfElements[smallestValue.first - 1][smallestValue.second];
             if(!elementAbove->visited){
-                if(elementAbove->shortestPath != 0){
+                if(elementAbove->shortestPath != INT_MAX){
                     int tempValue = currentElement->shortestPath + (rows[smallestValue.first - 1][smallestValue.second] - '0');
                     if(tempValue < elementAbove->shortestPath){
                         elementAbove->shortestPath = tempValue;
                         elementAbove->gotByDirection = "above";
                     }
-                } else if(elementAbove->shortestPath == 0){
+                } else if(elementAbove->shortestPath == INT_MAX){
                     elementAbove->shortestPath = currentElement->shortestPath + (rows[smallestValue.first - 1][smallestValue.second] - '0');
                     elementAbove->gotByDirection = "above";
                 }
@@ -99,13 +100,13 @@ std::vector<std::vector<element>> dijkstraAlgorithm(std::vector<std::vector<elem
         if(smallestValue.first < vecOfElements.size() - 1){
             element *elementUnder = &vecOfElements[smallestValue.first + 1][smallestValue.second];
             if(!elementUnder->visited){
-                if(elementUnder->shortestPath != 0){
+                if(elementUnder->shortestPath != INT_MAX){
                     int tempValue = currentElement->shortestPath + rows[smallestValue.first + 1][smallestValue.second] - '0';
                     if(tempValue < elementUnder->shortestPath){
                         elementUnder->shortestPath = tempValue;
                         elementUnder->gotByDirection = "under";
                     }
-                } else if(elementUnder->shortestPath == 0){
+                } else if(elementUnder->shortestPath == INT_MAX){
                     elementUnder->shortestPath = currentElement->shortestPath + rows[smallestValue.first + 1][smallestValue.second] - '0';
                     elementUnder->gotByDirection = "under";
                 }
@@ -116,13 +117,14 @@ std::vector<std::vector<element>> dijkstraAlgorithm(std::vector<std::vector<elem
         if(smallestValue.second > 0){
             element *elementLeft = &vecOfElements[smallestValue.first][smallestValue.second - 1];
             if(!elementLeft->visited){
-                if(elementLeft->shortestPath != 0){
+                if(elementLeft->shortestPath != INT_MAX){
+                    std::cout << "test";
                     int tempValue = currentElement->shortestPath + rows[smallestValue.first][smallestValue.second - 1] - '0';
                     if(tempValue < elementLeft->shortestPath){
                         elementLeft->shortestPath = tempValue;
                         elementLeft->gotByDirection = "left";
                     }
-                } else if(elementLeft->shortestPath == 0){
+                } else if(elementLeft->shortestPath == INT_MAX){
                     elementLeft->shortestPath = currentElement->shortestPath + rows[smallestValue.first][smallestValue.second - 1] - '0';
                     elementLeft->gotByDirection = "left";
                 }
@@ -133,13 +135,13 @@ std::vector<std::vector<element>> dijkstraAlgorithm(std::vector<std::vector<elem
         if(smallestValue.second < vecOfElements[0].size() - 1){
             element *elementRight = &vecOfElements[smallestValue.first][smallestValue.second + 1];
             if(!elementRight->visited){
-                if(elementRight->shortestPath != 0){
+                if(elementRight->shortestPath != INT_MAX){
                     int tempValue = currentElement->shortestPath + rows[smallestValue.first][smallestValue.second + 1] - '0';
                     if(tempValue < elementRight->shortestPath){
                         elementRight->shortestPath = tempValue;
                         elementRight->gotByDirection = "right";
                     }
-                } else if(elementRight->shortestPath == 0){
+                } else if(elementRight->shortestPath == INT_MAX){
                     elementRight->shortestPath = currentElement->shortestPath + rows[smallestValue.first][smallestValue.second + 1] - '0';
                     elementRight->gotByDirection = "right";
                 }
@@ -159,7 +161,7 @@ std::pair<int, int> findSmallestValue(std::vector<std::vector<element>> vecOfEle
     std::pair<int, int> pair = std::make_pair(0, 0);
     for(int y = 0; y < vecOfElements.size(); y++){
         for(int x = 0; x < vecOfElements[y].size(); x++){
-            if(!vecOfElements[y][x].visited && vecOfElements[y][x].shortestPath != 0 && (vecOfElements[y][x].shortestPath < vecOfElements[pair.first][pair.second].shortestPath || (pair.first == 0 && pair.second == 0))){
+            if(!vecOfElements[y][x].visited && vecOfElements[y][x].shortestPath != INT_MAX && (vecOfElements[y][x].shortestPath < vecOfElements[pair.first][pair.second].shortestPath || (pair.first == 0 && pair.second == 0))){
                 bool inRow = checkIfRow(vecOfElements, y, x);
                 if(!inRow){
                     pair.first = y;
@@ -192,7 +194,7 @@ bool checkIfRow(std::vector<std::vector<element>> vecOfElements, int Y, int X){
     //checkUnder
     row = true;
     for(int i = 1; i <= 3; i++){
-        if(Y - i > 0){
+        if(Y - i >= 0){
             if(vecOfElements[Y-i][X].gotByDirection != "under"){
                 row = false;
                 break;
@@ -224,7 +226,7 @@ bool checkIfRow(std::vector<std::vector<element>> vecOfElements, int Y, int X){
     //checkRight
     row = true;
     for(int i = 1; i <= 3; i++){
-        if(X - i){
+        if(X - i >= 0){
             if(vecOfElements[Y][X-i].gotByDirection != "right"){
                 row = false;
                 break;
